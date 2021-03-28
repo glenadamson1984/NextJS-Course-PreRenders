@@ -1,12 +1,15 @@
 import Head from "next/head";
 import path from "path";
 import fs from "fs/promises";
+import Link from "next/link";
 
 const Home = ({ products }) => {
   return (
     <ul>
       {products.map((product) => (
-        <li key={product.id}>{product.title}</li>
+        <li key={product.id}>
+          <Link href={`/${product.id}`}>{product.title}</Link>
+        </li>
       ))}
     </ul>
   );
@@ -18,16 +21,16 @@ export const getStaticProps = async () => {
 
   const data = JSON.parse(jsonData);
 
-  if(!data) {
+  if (!data) {
     return {
       redirect: {
-        destination: '/no-data'
-      }
-    }
+        destination: "/no-data",
+      },
+    };
   }
 
-  if(data.products.length === 0) {
-    return {notFound: true}
+  if (data.products.length === 0) {
+    return { notFound: true };
   }
 
   return {
